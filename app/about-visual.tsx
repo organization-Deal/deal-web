@@ -50,6 +50,8 @@ const questions = {
 export function AboutVisual({ project, onSelect }: { project: OfferId; onSelect: (value: OfferId) => void }) {
   const [gallery, setGallery] = useState<{ project: OfferId; second: boolean }>({ project, second: false });
   const second = gallery.project === project && gallery.second;
+  const [selectedTopic, setSelectedTopic] = useState("about-team");
+  const team = useRef<HTMLDivElement>(null);
   const income = useRef<HTMLDivElement>(null);
   const timeline = useRef<HTMLDivElement>(null);
   const terms = useRef<HTMLElement>(null);
@@ -57,23 +59,27 @@ export function AboutVisual({ project, onSelect }: { project: OfferId; onSelect:
   const house = project === "house";
   const photo = second ? story.second : story.cover;
   const topics = [
-    { icon: Banknote, title: "ส่วนแบ่งและวันรับเงิน", dest: income, id: "about-money" },
-    { icon: CalendarDays, title: "ไทม์ไลน์โครงการ", dest: timeline, id: "about-dates" },
-    { icon: FileCheck2, title: "เงื่อนไขก่อนตกลง", dest: terms, id: "about-terms" },
+    { icon: UsersRound, title: "ทีมดูแลอะไร", short: "ทีมดูแล", dest: team, id: "about-team" },
+    { icon: Banknote, title: "ส่วนแบ่งและวันรับเงิน", short: "รับเงิน", dest: income, id: "about-money" },
+    { icon: CalendarDays, title: "ไทม์ไลน์โครงการ", short: "ไทม์ไลน์", dest: timeline, id: "about-dates" },
+    { icon: FileCheck2, title: "เงื่อนไขก่อนตกลง", short: "สัญญา", dest: terms, id: "about-terms" },
   ];
   return (
-    <section className="about-visual" aria-label="ข้อมูลสำหรับเจ้าของ">
+    <section className="about-visual" data-topic={selectedTopic} aria-label="ข้อมูลสำหรับเจ้าของ">
       <div className="about-controls">
         <LearnProjectSwitch selected={project} onChange={value => { setGallery({ project: value, second: false }); onSelect(value); }} controls="learn-story" />
         <nav className="about-topics" aria-label="ข้ามไปหัวข้อที่สนใจ">
-          {topics.map(({ icon: Icon, title, dest, id }) => <button type="button" key={id} aria-controls={id} onClick={() => {
-            dest.current?.focus({ preventScroll: true });
-            dest.current?.scrollIntoView({ block: "start" });
-          }}><Icon size={18} aria-hidden="true" />{title}</button>)}
+          {topics.map(({ icon: Icon, title, short, dest, id }) => <button type="button" key={id} aria-controls={id} aria-label={title} aria-current={selectedTopic === id ? "location" : undefined} onClick={() => {
+            setSelectedTopic(id);
+            if (!window.matchMedia("(max-width: 750px)").matches) {
+              dest.current?.focus({ preventScroll: true });
+              dest.current?.scrollIntoView({ block: "start" });
+            }
+          }}><Icon size={18} aria-hidden="true" /><span className="about-long-label">{title}</span><span className="about-short-label">{short}</span></button>)}
         </nav>
       </div>
       <article key={project} id="learn-story" className="learn-story">
-        <div className="learn-company">
+        <div id="about-team" ref={team} tabIndex={-1} className="learn-company">
           <div className="learn-gallery">
             <figure className={"learn-evidence learn-evidence-" + project + (second ? " is-secondary" : "")}>
               <img src={photo.src} alt={photo.alt} />
