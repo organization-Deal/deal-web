@@ -73,6 +73,7 @@ function CheckoutForm({ id, share, signedIn, authReady }: {
 }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [showFacts, setShowFacts] = useState(false);
   const [accepted, setAccepted] = useState(false);
   const [fieldError, setFieldError] = useState<"name" | "phone" | null>(null);
   const [error, setError] = useState("");
@@ -149,7 +150,10 @@ function CheckoutForm({ id, share, signedIn, authReady }: {
           </div>
           <div className="request-order-total"><span>{house ? "ราคาอ้างอิงรอบเดิมสำหรับ " + currency.format(share) + "%" : "ราคาสำหรับ " + boxingShareLabel(share)}</span><strong>{currency.format(offerAmount(id, share))}<small>บาท</small></strong></div>
           <div className="request-share-meter" aria-hidden="true"><i style={{ width: share + "%" }} /></div>
-          <dl className="request-facts">
+          <button type="button" className="request-facts-toggle" aria-controls="review-facts" aria-expanded={showFacts} onClick={() => setShowFacts(!showFacts)}>
+            {house ? "รายละเอียดรอบเดิม" : "รายละเอียดสิทธิที่ขอตรวจ"}<ChevronRight size={16} aria-hidden="true" />
+          </button>
+          <dl className="request-facts" id="review-facts" data-expanded={showFacts}>
             <div><dt>รูปแบบที่สนใจ</dt><dd>{ownership}</dd></div>
             <div><dt>{house ? "เรื่องที่สนใจ" : "สิ่งที่ขอให้ทีมยืนยัน"}</dt><dd>{house ? "ข่าวการเปิดรอบถัดไป" : "หมายเลขตู้และจุดติดตั้งตามสัญญา"}</dd></div>
             <div><dt>{house ? "ราคาทั้งหลังในรอบเดิม" : "ราคาทั้งตู้"}</dt><dd>{amount(project.fullPrice)}</dd></div>
