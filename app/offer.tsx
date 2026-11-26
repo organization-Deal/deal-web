@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type FormEvent, type PointerEvent } from "react";
+import { useRef, useState, useSyncExternalStore, type CSSProperties, type FormEvent, type PointerEvent } from "react";
 import {
-  BedDouble, CalendarDays, ChevronDown, ChevronLeft, ChevronRight, Coins, Expand, Gamepad2, House, MapPin,
+  BookOpen, ChartNoAxesColumn, FileText, BedDouble, CalendarDays, ChevronDown, ChevronLeft, ChevronRight, Coins, Expand, Gamepad2, House, MapPin,
   Pencil, ReceiptText, Wallet, X,
 } from "lucide-react";
 import { money } from "../lib/deals";
@@ -140,7 +140,8 @@ function OfferView({ id, initialShare, onShareChange, onContinue }: OfferProps) 
   const isCompact = useSyncExternalStore(subscribeToLayout, readCompactLayout, desktopServerLayout);
   const sheet = useRef<HTMLDialogElement>(null);
   const evidence = useRef<HTMLDivElement>(null);
-  const [reachedEvidence, setReachedEvidence] = useState(false);
+  const [section, setSection] = useState<"overview" | "evidence" | "terms">("overview");
+  const sections = useRef<HTMLElement>(null);
   const sheetGesture = useRef<{ id: number; x: number; y: number } | null>(null);
   const lastValidInput = useRef(String(start));
   const pctInput = useRef<HTMLInputElement>(null);
@@ -153,25 +154,15 @@ function OfferView({ id, initialShare, onShareChange, onContinue }: OfferProps) 
     maximumFractionDigits: 2,
   });
 
-  useEffect(() => {
-    const section = evidence.current;
-    if (!isCompact || !section) return;
-    if (typeof IntersectionObserver !== "function") {
-      setReachedEvidence(true);
-      return;
-    }
-    const observer = new IntersectionObserver(([entry]) => {
-      const viewportEnd = entry.rootBounds?.bottom ?? window.innerHeight * .7;
-      setReachedEvidence(entry.boundingClientRect.top <= viewportEnd);
-    }, { rootMargin: "0px 0px -30% 0px" });
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, [isCompact]);
-
   function viewEvidence() {
-    evidence.current?.focus({ preventScroll: true });
-    evidence.current?.scrollIntoView({ behavior: "instant", block: "start" });
-    setReachedEvidence(true);
+    if (isCompact) {
+      setSection("evidence");
+      sections.current?.querySelector<HTMLButtonElement>('[aria-controls="offer-evidence"]')?.focus({ preventScroll: true });
+      sections.current?.scrollIntoView({ block: "start" });
+    } else {
+      evidence.current?.focus({ preventScroll: true });
+      evidence.current?.scrollIntoView({ block: "start" });
+    }
   }
 
   function updateInput(value: string) {
@@ -271,7 +262,7 @@ function OfferView({ id, initialShare, onShareChange, onContinue }: OfferProps) 
   );
 
   return (
-    <article className="offer-page" data-product={id}>
+    <article className="offer-page" data-product={id} data-section={section}>
       <a className="offer-back" href="#/catalog"><ChevronLeft size={19} aria-hidden="true" /> ทุกโครงการ</a>
       <header className="offer-title">
         <div className="offer-title-meta">
@@ -281,7 +272,12 @@ function OfferView({ id, initialShare, onShareChange, onContinue }: OfferProps) 
         <h1>{product.name}</h1>
         <p className="offer-subtitle">{house && <MapPin size={15} aria-hidden="true" />}{subtitle}</p>
       </header>
-      <div className="offer-introduction">
+      <nav className="offer-sections" ref={sections} aria-label="ข้อมูลโครงการ">
+        <button type="button" aria-controls="offer-overview" aria-pressed={section === "overview"} onClick={() => setSection("overview")}><BookOpen size={17} />ภาพรวม</button>
+        <button type="button" aria-controls="offer-evidence" aria-pressed={section === "evidence"} onClick={() => setSection("evidence")}><ChartNoAxesColumn size={17} />{house ? "สถานะบ้าน" : "รายงานจริง"}</button>
+        <button type="button" aria-controls="offer-terms" aria-pressed={section === "terms"} onClick={() => setSection("terms")}><FileText size={17} />เงื่อนไข</button>
+      </nav>
+      <div className="offer-introduction" id="offer-overview">
         <Gallery id={id} name={product.name} />
         <section className="offer-rights-summary" aria-labelledby="offer-basics">
           <h2 id="offer-basics">{house ? "สัดส่วน 10% ในรอบเดิม" : "สัดส่วน 10% ได้สิทธิอะไร"}</h2>
@@ -297,6 +293,7 @@ function OfferView({ id, initialShare, onShareChange, onContinue }: OfferProps) 
               <dd>{house ? "ค่าที่พักของชั้นหรือหน่วยในสัญญา" : "ค่าเล่นที่ลูกค้าจ่ายให้ตู้นั้น"} หลังหักค่าใช้จ่ายจึงแบ่งตามสัดส่วน</dd>
             </div>
           </dl>
+          <p className="offer-risk-mobile">หากรายรับหลังหักค่าใช้จ่ายเหลือศูนย์ งวดนั้นจะไม่มีส่วนแบ่ง</p>
           <button className="offer-evidence-jump" type="button" onClick={viewEvidence} aria-controls="offer-evidence">
             {house ? "ดูสถานะและข้อมูลบ้าน" : "ดูข้อมูลตู้และรายได้"}
             <ChevronDown size={16} aria-hidden="true" />
@@ -307,7 +304,7 @@ function OfferView({ id, initialShare, onShareChange, onContinue }: OfferProps) 
         <ProjectEvidence id={id} />
       </div>
       <div className="offer-columns">
-        <section className="offer-conditions" aria-labelledby="offer-income">
+        <section id="offer-terms" className="offer-conditions" aria-labelledby="offer-income">
           <h2 id="offer-income">รายได้แบ่งอย่างไร</h2>
           <ol className="offer-income-flow" aria-label="รายได้มาถึงเจ้าของอย่างไร">
             <li>
@@ -353,11 +350,7 @@ function OfferView({ id, initialShare, onShareChange, onContinue }: OfferProps) 
       {isCompact && <div className="offer-bottom">
         <div className="offer-bottom-inner">
           <div className="offer-bottom-price"><span>{house ? "อ้างอิงรอบเดิม" : ""}{share !== null && (house ? " " + share + "%" : boxingShareLabel(share))}</span><strong>{amount} <small>บาท</small></strong></div>
-          {reachedEvidence ? (
-            <button type="button" aria-haspopup="dialog" onClick={() => sheet.current?.showModal()}>{house ? "ลองคำนวณ" : "เลือกสัดส่วน"}</button>
-          ) : (
-            <button type="button" aria-controls="offer-evidence" onClick={viewEvidence}>ดูข้อมูลโครงการ</button>
-          )}
+          <button type="button" aria-haspopup="dialog" onClick={() => sheet.current?.showModal()}>{house ? "ลองคำนวณ" : "เลือกสัดส่วน"}<ChevronRight size={17} aria-hidden="true" /></button>
         </div>
       </div>}
     </article>
