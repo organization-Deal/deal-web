@@ -1,0 +1,25 @@
+.learn-report { margin:16px 0 0; padding-inline:clamp(14px,2vw,24px); border-radius:22px; color:var(--ink); background:#fff; box-shadow:0 1px 4px #18182110; }
+.learn-report details+details { border-top:1px solid #e7e7eb; }
+.learn-report summary { display:grid; grid-template-columns:32px 1fr 17px; gap:9px; align-items:center; min-height:60px; padding:7px 0; cursor:pointer; list-style:none; font-size:1rem; font-weight:500; }
+.learn-report summary::-webkit-details-marker { display:none; }
+.learn-report summary:focus-visible { outline-offset:-2px; border-radius:8px; }
+.learn-report-icon { display:grid; place-items:center; width:32px; height:32px; border-radius:10px; background:#f2f2f4; color:#525258; }
+.learn-report summary > svg { color:#616168; }
+.learn-report details[open] summary > svg { transform:rotate(180deg); }
+.learn-report-body { padding:0 1px 17px; }
+.learn-report-body > p { margin:0; color:#606068; font-size:1rem; line-height:1.55; }
+.learn-report-bar { overflow:hidden; border-radius:15px; margin:14px 0 9px; height:8px; background:#dedee3; }
+.learn-report-bar span { display:block; height:100%; border-radius:inherit; background:#bd0200; }
+.learn-report-lines { padding:0; margin:0; }
+.learn-report-lines > div { display:flex; align-items:baseline; justify-content:space-between; gap:12px; padding:6px 0; color:#606068; font-size:.94rem; }
+.learn-report-lines dd { margin:0; color:var(--ink); font-variant-numeric:tabular-nums; white-space:nowrap; }
+.learn-report-lines .learn-report-net { border-top:1px solid #e7e7eb; margin-top:4px; padding-top:10px; font-weight:600; color:var(--ink); }
+.learn-example-total { display:flex; gap:10px; justify-content:space-between; align-items:center; margin-top:10px; padding:14px; background:#f3f3f5; border-radius:14px; }
+.learn-example-total > div { display:grid; }
+.learn-example-total div strong { font-size:.9375rem; font-weight:500; }
+.learn-example-total div span { color:#65656b; font-size:.875rem; }
+.learn-example-total > strong { font-size:clamp(1.15rem,2.2vw,1.6rem); font-weight:600; font-variant-numeric:tabular-nums; white-space:nowrap; letter-spacing:-.03em; }
+.learn-example-total small { font-size:.8125rem; font-weight:400; }
+.learn-report-body .learn-report-note { margin-top:11px; font-size:.875rem; }
+.learn-contract > p+p { margin-top:10px; }
+@media(max-width:450px){.learn-example-total{padding:11px;flex-wrap:wrap}}

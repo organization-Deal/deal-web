@@ -1,0 +1,6 @@
+.project-document-link {
+  display: inline-flex; align-items: center; gap: 7px; min-height: 44px;
+  color: var(--red-dark, #8e100d); font-size: .94rem; font-weight: 500; line-height: 1.4;
+}
+.project-document-link svg { flex: none; }
+.project-document-link:hover span { text-decoration: underline; text-underline-offset: 3px; }

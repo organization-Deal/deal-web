@@ -1,0 +1,175 @@
+.records-list,.booking-record {
+  --record-rule:#e5e5e9;
+  --record-fill:#f3f3f5;
+  --record-muted:#606169;
+  --record-shadow:0 2px 5px rgb(22 22 32 / 2%),0 10px 34px -23px rgb(22 22 32 / 19%);
+  margin-inline:auto;
+  max-width:1130px;
+  color:var(--ink);
+}
+.records-list .page-heading {margin:0 0 clamp(22px,3vw,36px)}
+.records-list .page-heading h1,.booking-record .record-header h1 {
+  font-size:clamp(2rem,4vw,3.15rem);
+  line-height:1.18;
+  font-weight:600;
+  letter-spacing:-.045em;
+  text-wrap:balance;
+}
+.records-list .page-heading p,.booking-record .record-header p {font-size:1rem;line-height:1.6;color:var(--record-muted);margin-top:.45rem}
+.records-list .metrics {gap:12px;margin-bottom:20px}
+.records-list .metrics > div,.records-list .ledger,.records-list .verified-totals,.booking-record .panel,.booking-record .record-header,.booking-record .record-progress {
+  border:1px solid rgb(31 32 41 / 6%);
+  background:white;
+  border-radius:26px;
+  box-shadow:var(--record-shadow);
+}
+.records-list .metrics > div {padding:clamp(16px,2vw,24px);gap:16px 9px;align-items:center;border-radius:22px}
+.records-list .metrics span {color:var(--record-muted);line-height:1.4}
+.records-list .metrics strong {font-size:clamp(1.7rem,3vw,2.4rem);line-height:1.12;color:var(--ink);font-weight:550;font-variant-numeric:tabular-nums}
+.records-list .metrics svg {box-sizing:content-box;padding:7px;border-radius:11px;background:var(--record-fill);color:#56575e}
+.records-list .portfolio-metrics > div:first-child {background:#262629}
+.records-list .portfolio-metrics > div:first-child strong {color:#fff}
+.records-list .portfolio-metrics > div:first-child span {color:#e5e5e8}
+.records-list .portfolio-metrics > div:first-child svg {color:white;background:#3d3d41}
+.records-list .verified-totals {padding:14px 20px;gap:12px 25px;border-radius:18px}
+.records-list .ledger,.booking-record .panel {padding:clamp(19px,2.8vw,32px)}
+.records-list .ledger-heading,.booking-record .ledger-heading {display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:20px}
+.records-list .ledger-heading h2,.booking-record .ledger-heading h2 {display:flex;align-items:center;flex-wrap:wrap;gap:6px 12px;font-size:clamp(1.25rem,2vw,1.55rem);font-weight:600}
+.records-list .record-count,.records-list .mobile-cell-title {color:var(--record-muted);font-size:.875rem;font-weight:400}
+.records-list .mobile-cell-title {display:none}
+.records-list .record-filters {display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:start;margin-bottom:20px}
+.records-list .record-filters .search,.records-list .record-filter-toggle,.booking-record .record-action form input:not([type=checkbox]),.records-list .record-filter-fields select {
+  background-color:var(--record-fill);border:1px solid transparent;border-radius:14px;min-height:46px;
+}
+.records-list .record-filters .search {width:auto;height:46px}
+.records-list .record-filters .search:focus-within {border-color:var(--red);box-shadow:0 0 0 1px var(--red)}
+.records-list .record-filter-toggle {display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 14px;font-size:15px;color:var(--ink);font-weight:500}
+.records-list .record-filter-toggle[aria-expanded=true] {background:#e9e9ed}
+.records-list .record-filter-toggle[aria-expanded=true] svg:last-child {transform:rotate(180deg)}
+.records-list .record-filter-fields {grid-column:1/-1;display:flex;gap:12px;align-items:end;flex-wrap:wrap;background:#f9f9fa;padding:15px;border-radius:17px}
+.records-list .record-filter-fields[hidden] {display:none}
+.records-list .record-filter-fields label:not(.check) {display:grid;gap:5px;flex:1 1 140px;min-width:0;color:var(--record-muted);font-size:14px}
+.records-list .record-filter-fields select {background-color:white;border-color:var(--record-rule);width:100%;font-size:16px}
+.records-list .record-filter-fields .text-btn {color:var(--red);min-height:44px}
+.records-list table th {color:var(--record-muted);background:#f8f8f9;font-size:.875rem;border:0;padding-block:11px}
+.records-list table th:first-child {border-radius:10px 0 0 10px}
+.records-list table th:last-child {border-radius:0 10px 10px 0}
+.records-list tbody td {padding-block:15px;border-bottom-color:var(--record-rule)}
+.records-list tbody tr:last-child td {border-bottom:none}
+.records-list .record-asset {display:flex;align-items:center;gap:12px;min-width:0}
+.records-list .record-asset div {min-width:0;overflow-wrap:anywhere}
+.records-list .record-asset img {flex:none;width:48px;height:48px;object-fit:cover;border-radius:13px;background:var(--record-fill)}
+.records-list .ledger-amount,.booking-record .record-value strong {font-variant-numeric:tabular-nums}
+.records-list .row-link,.booking-record .read-contract {
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:9px 13px;
+  min-height:44px;border-radius:14px;background:var(--record-fill);border:0;text-decoration:none;
+  font-weight:500;font-size:.9375rem;line-height:1.4;color:var(--ink);white-space:normal;
+}
+.booking-record .read-contract {margin:.6rem 0 0;color:var(--red)}
+.records-list .row-link:hover,.booking-record .read-contract:hover,.records-list .record-filter-toggle:hover {background:#e9e9ec}
+.records-list .empty {padding:clamp(26px,5vw,54px) 10px}
+.records-list .empty > svg {width:50px;height:50px;padding:11px;border-radius:16px;color:#57575c;background:var(--record-fill)}
+.records-list .empty h3 {margin-top:14px;font-size:1.3rem}
+.records-list .empty p {max-width:35em;margin-inline:auto}
+.records-list .secondary,.booking-record .secondary {min-height:44px;background:var(--record-fill);color:var(--ink);border:0;border-radius:14px;padding:9px 15px}
+.records-list .empty .secondary,.booking-record .record-action .primary,.invest-shell .signin-panel .primary {background:var(--red);color:white;border:0;border-radius:16px;min-height:50px;padding:.65em 1.35em}
+.records-list .empty .secondary:hover,.booking-record .record-action .primary:hover,.invest-shell .signin-panel .primary:hover {background:var(--red-dark)}
+.booking-record .back {min-height:44px;margin:0 0 10px}
+.booking-record .record-header {display:flex;align-items:center;gap:clamp(15px,2.2vw,29px);padding:clamp(17px,2.5vw,29px);margin:0 0 14px}
+.booking-record .record-cover {display:block;width:clamp(75px,11vw,128px);aspect-ratio:1.23;object-fit:cover;border-radius:17px;flex:none}
+.booking-record .record-title {min-width:0;flex:1}
+.booking-record .overline {font-size:.875rem;color:var(--record-muted);margin-bottom:4px}
+.booking-record .record-value {display:flex;align-items:flex-end;flex-direction:column;text-align:right;gap:3px}
+.booking-record .record-value > span:first-child {color:var(--record-muted);font-size:.875rem}
+.booking-record .record-value strong {display:block;line-height:1.2;font-size:clamp(1.65rem,3vw,2.4rem);font-weight:550;letter-spacing:-.045em}
+.booking-record .record-value .status {margin-top:5px}
+.booking-record .record-progress {border-radius:20px;padding:16px 10px 14px;margin:0 0 20px}
+.booking-record .record-progress i {width:14px;height:14px;margin-bottom:8px}
+.booking-record .record-progress li[aria-current] i {outline:3px solid #f6cfce;outline-offset:1px}
+.booking-record .record-grid {display:grid;grid-template-columns:minmax(0,1.35fr) minmax(270px,.85fr);grid-template-areas:"contract action" "contract history" "contract .";grid-template-rows:min-content min-content 1fr;gap:18px}
+.booking-record .paper {grid-area:contract}
+.booking-record .record-action {grid-area:action}
+.booking-record .timeline {grid-area:history}
+.booking-record .record-action h2,.booking-record .paper h2,.booking-record .timeline h3 {font-size:clamp(1.22rem,2.1vw,1.5rem);letter-spacing:-.025em;font-weight:600}
+.booking-record .timeline h3 {display:flex;align-items:center;gap:9px}
+.booking-record .timeline > div {margin:0;padding:13px 0;position:relative}
+.booking-record .timeline > div + div {border-top:1px solid var(--record-rule)}
+.booking-record .timeline > div:last-child {padding-bottom:0}
+.booking-record .timeline i {background:#c7c7cd}
+.booking-record .timeline > div:first-of-type i {background:var(--red)}
+.booking-record .record-action > p {margin-top:.6rem}
+.booking-record .ref,.booking-record .record-reason {padding:12px 15px;border-radius:14px;background:var(--record-fill);overflow-wrap:anywhere}
+.booking-record .record-reason b {display:block}
+.booking-record .record-action form {margin-top:.8rem}
+.booking-record .record-action form input:not([type=checkbox]) {font-size:16px}
+.booking-record .record-action form .check {align-items:flex-start}
+.booking-record .record-action form .check input {flex:none;width:19px;height:19px;margin-top:.22rem}
+.booking-record .record-action .primary {white-space:normal;margin-top:7px}
+.booking-record .record-action .text-btn {min-height:44px}
+.booking-record .record-action .confirm {margin:.8rem 0 0}
+.booking-record #print-document,.booking-record #record-action-name {scroll-margin-top:100px}
+.booking-record #print-document:focus-visible {outline:2px solid var(--red);outline-offset:2px}
+.booking-record .contract p {font-size:1rem;line-height:1.8;margin:.75rem 0}
+.booking-record .signature {padding:16px 18px;margin-top:22px;border:0;background:var(--record-fill);border-radius:16px}
+.booking-record .document-digest {margin-top:.65rem}
+.booking-record .document-digest summary {width:fit-content;color:var(--record-muted);padding:8px 0;cursor:pointer}
+.booking-record .document-digest .hash {font-family:ui-monospace,monospace;font-size:.82rem}
+.booking-record .document-return {margin-top:.6rem}
+.invest-shell .shell > .signin-panel {
+  max-width:445px;padding:clamp(26px,4vw,43px);border:1px solid rgb(31 32 41 / 7%);border-radius:30px;
+  box-shadow:0 16px 48px -28px rgb(22 22 32 / 23%);margin:clamp(12px,6vh,72px) auto;
+}
+.invest-shell .signin-panel .signin-symbol {width:58px;height:58px;display:grid;place-items:center;color:var(--red);background:#fff1ef;border-radius:19px;margin:0 auto 19px}
+.invest-shell .signin-panel h1 {font-weight:600;font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.23;letter-spacing:-.04em;text-wrap:balance}
+.invest-shell .signin-panel p {font-size:1rem;line-height:1.65;color:#606169;margin:11px auto 20px}
+.invest-shell .signin-panel .primary,.invest-shell .signin-panel .text-btn {display:flex;justify-content:center;align-items:center;width:100%;margin:0}
+.invest-shell .signin-panel .text-btn {min-height:44px;margin-top:5px;font-weight:500;color:#56565e}
+@supports (corner-shape:superellipse(1.32)) {
+  .records-list :is(.ledger,.metrics > div,.record-filter-toggle,.search,.row-link,.secondary),.booking-record :is(.record-header,.record-progress,.panel,.primary,.secondary,.read-contract),.invest-shell .signin-panel,.invest-shell .signin-panel .primary {corner-shape:superellipse(1.32)}
+}
+@media(max-width:760px) {
+  .booking-record .record-grid {grid-template-columns:minmax(0,1fr);grid-template-areas:"action" "contract" "history";grid-template-rows:auto}
+}
+@media(max-width:700px) {
+  .records-list .metrics,.records-list .portfolio-metrics {grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:13px}
+  .records-list .portfolio-metrics > div:first-child {grid-column:1/-1}
+  .records-list .metrics span {font-size:.875rem}
+  .records-list .metrics svg {width:16px;height:16px}
+  .records-list .ledger,.booking-record .record-grid .panel {padding:17px;border-radius:22px}
+  .records-list .ledger-heading {flex-wrap:wrap}
+  .records-list .ledger-heading .secondary {padding:8px 11px}
+  .records-list .record-filter-toggle {gap:4px;padding-inline:9px}
+  .records-list .mobile-cell-title {display:inline;margin-right:.4em}
+  .records-list tbody tr {grid-template-columns:minmax(0,1fr) auto;gap:7px 8px;padding:16px 0}
+  .records-list tbody td {padding:0}
+  .records-list td:nth-child(1) {grid-area:1/1}
+  .records-list td:nth-child(2) {grid-area:1/2;align-self:center;text-align:right;font-weight:600}
+  .records-list td:nth-child(3) {grid-area:2/1/3/-1}
+  .records-list td:nth-child(4) {grid-area:3/1/4/-1}
+  .records-list td:last-child {grid-area:4/1/5/-1;text-align:start}
+  .records-list td small.warn {display:inline;margin-left:.4em}
+  .records-list .record-asset {gap:8px}
+  .records-list .record-asset img {width:38px;height:42px;border-radius:10px}
+  .booking-record .record-header {display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;border-radius:22px}
+  .booking-record .record-cover {width:70px}
+  .booking-record .record-header h1 {font-size:clamp(1.4rem,6.3vw,2rem)}
+  .booking-record .record-value {grid-column:1/-1;flex-direction:row;align-items:center;flex-wrap:wrap;text-align:left;gap:4px 7px;padding-top:12px;border-top:1px solid var(--record-rule)}
+  .booking-record .record-value strong {font-size:1.45rem}
+  .booking-record .record-value .status {margin:0 0 0 auto}
+  .booking-record .record-progress {border-radius:18px;padding:14px 5px}
+  .booking-record .record-progress li {font-size:.8rem}
+}
+@media(max-width:390px) {
+  .records-list .record-asset img {display:none}
+  .records-list .record-filter-toggle svg:first-child {display:none}
+}
+@media(prefers-reduced-motion:no-preference) {
+  .records-list button,.booking-record button,.invest-shell .signin-panel a {transition:background-color .16s ease,transform .14s ease}
+  .records-list button:active,.booking-record button:active,.invest-shell .signin-panel a:active {transform:scale(.98)}
+}
+@media print {
+  .booking-record .record-grid {display:block}
+  .booking-record .record-grid .paper {box-shadow:none;border-radius:0}
+  .booking-record .timeline,.booking-record .document-return,.booking-record .document-digest summary {display:none}
+  .booking-record .document-digest::details-content {content-visibility:visible}
+}
