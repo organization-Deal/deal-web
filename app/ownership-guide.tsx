@@ -65,7 +65,7 @@ export function OwnershipGuide({ page, project, onSelect }: { page: "about" | "o
       <header className="guide-heading">
         <h1>{about ? "รู้จัก DEAL!" : "เลือกสัดส่วนการเป็นเจ้าของ"}</h1>
         <p>{about
-          ? "บริษัท ดีลอินเวส จำกัด ช่วยให้คุณเป็นเจ้าของตู้ชกมวยหรือบ้านพักได้ทั้งชิ้นหรือบางส่วน เลือกโครงการเพื่อดูว่าใครดูแลทรัพย์ เงินส่วนแบ่งมาจากไหน และจะเข้าบัญชีเมื่อไร"
+          ? "บริษัท ดีลอินเวส จำกัด ดูแลตู้ชกมวยและบ้านพัก เลือกทรัพย์เพื่อดูหน้าที่ของทีม วิธีรับส่วนแบ่ง และเงื่อนไขในสัญญา"
           : "เลือกบ้านพักหรือตู้ชกมวย ลองคำนวณราคา แล้วดูเงื่อนไขก่อนส่งคำขอ"}</p>
       </header>
       {about ? <AboutVisual project={project} onSelect={onSelect} /> : <><OwnershipExplorer /><OwnershipQuestions /><AfterRequest /></>}
