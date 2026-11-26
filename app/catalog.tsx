@@ -2,11 +2,12 @@
 
 import { useRef, useState, type CSSProperties } from "react";
 import {
-  ArrowUpRight, BookOpen, Calculator, CalendarClock, ClipboardList, Columns2, FilePenLine, Gamepad2, House,
+  ArrowUpRight, ChevronDown, ChevronRight, ReceiptText, SlidersHorizontal, BookOpen, Calculator, CalendarClock, ClipboardList, Columns2, FilePenLine, Gamepad2, House,
   Images, LayoutGrid, List, Play, Search, UsersRound, X,
 } from "lucide-react";
 import { money } from "../lib/deals";
 import { offers, type OfferId } from "../lib/offers";
+import { lismStatements } from "../lib/lism-reports";
 import { DocumentLink } from "./document-link";
 
 type Filter = "all" | OfferId;
@@ -86,6 +87,54 @@ function OfferLink({ id }: { id: OfferId }) {
   return <a className="store-primary" href={"#/offer/" + id} aria-label={label + " " + offers[id].name}>{label}<ArrowUpRight className="mobile-cta-arrow" size={16} aria-hidden="true" /></a>;
 }
 
+function MobileProject({ id }: { id: OfferId }) {
+  const product = offers[id];
+  if (id === "house") {
+    return <article className="mkt-archive" aria-label="โครงการบ้านพักที่ปิดรอบแล้ว">
+      <h2>โครงการที่ปิดรอบแล้ว</h2>
+      <a className="mkt-house-row" href="#/offer/house">
+        <img src="/media/rimping-render.webp" alt="ภาพจำลองบ้านพักริมปิง" loading="lazy" />
+        <span><strong>บ้านพักริมปิง</strong><small>Human Allowed Rimping</small>
+          <span>ดูสถานะโครงการ</span></span>
+        <ChevronRight size={18} aria-hidden="true" />
+      </a>
+    </article>;
+  }
+  const report = lismStatements[0];
+  const expenses = report.fees.reduce((sum, fee) => sum + fee, 0);
+  const format = (amount: number) => amount.toLocaleString("th-TH", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  return <article className="mkt-feature" aria-labelledby="mkt-boxing-title">
+    <header className="mkt-hero">
+      <picture><source media="(max-width: 600px)" srcSet="/media/boxing-chiang-mai.webp" />
+        <img alt="ตู้ชกมวย DEAL! ที่ติดตั้งในเชียงใหม่" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" /></picture>
+      <div className="mkt-hero-words">
+        <span className="mkt-status">เปิดรับคำขอ</span>
+        <h2 id="mkt-boxing-title">DEAL!<br />Boxing</h2>
+        <p>ตู้ชกมวยอาร์เคด</p>
+      </div>
+    </header>
+    <div className="mkt-decision">
+      <span className="mkt-price-label">ราคาสำหรับสิทธิ 10% ของตู้</span>
+      <p className="mkt-amount">{money(product.unitPrice)} <small>บาท</small></p>
+      <p className="mkt-calc">ราคาทั้งตู้ {money(product.fullPrice)} บาท × 10%</p>
+      <p className="mkt-rights">เจ้าของรับส่วนแบ่งจากค่าเล่นที่เหลือหลังหักค่าใช้จ่ายของตู้ที่ระบุในสัญญา</p>
+      <details className="mkt-statement">
+        <summary><ReceiptText size={20} aria-hidden="true" /><span><strong>ดูบิลรายได้จริง</strong><small>ตู้ร้าน Lism เชียงใหม่ · {report.period}</small></span><ChevronDown size={17} aria-hidden="true" /></summary>
+        <div className="mkt-bill">
+          <dl><div><dt>ยอดเล่นทั้งงวด</dt><dd>{format(report.sales)}</dd></div>
+            <div><dt>หักค่าใช้จ่าย</dt><dd>−{format(expenses)}</dd></div>
+            <div><dt>เหลือให้แบ่ง</dt><dd>{format(report.net)}</dd></div>
+            <div><dt>ส่วนแบ่ง 10% ในงวดนี้</dt><dd>{format(report.tenth)} บาท</dd></div></dl>
+          <p>ตัวเลขย้อนหลังของตู้ร้านนี้ แต่ละงวดขึ้นกับยอดเล่นและค่าใช้จ่ายจริง</p>
+          <a href="#/documents/boxing">ดูรายการหักและเงื่อนไขสัญญา</a>
+        </div>
+      </details>
+      <a className="mkt-main-link" href="#/offer/boxing">ดูสิทธิและเลือกสัดส่วน</a>
+      <p className="mkt-note">ส่งคำขอให้ทีมตรวจสิทธิได้โดยยังไม่ต้องชำระเงิน</p>
+    </div>
+  </article>;
+}
+
 function ProductCard({ id }: { id: OfferId }) {
   const [photoIndex, setPhotoIndex] = useState(0);
   const product = catalogue[id];
@@ -150,6 +199,7 @@ export function Catalog() {
   const [query, setQuery] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
   const [compare, setCompare] = useState(false);
+  const [showTools, setShowTools] = useState(false);
   const searchButton = useRef<HTMLButtonElement>(null);
   const searchTerm = query.trim().toLocaleLowerCase("th");
   const visible = productIds.filter(id => {
@@ -165,17 +215,20 @@ export function Catalog() {
   }
 
   return (
-    <div className="deal-store">
+    <div className="deal-store" data-tools={showTools}>
       <section aria-labelledby="catalog-title">
         <header className="store-opening">
           <div className="store-heading"><h1 id="catalog-title"><span className="desktop-copy">เลือกโครงการของคุณ</span><span className="mobile-copy">โครงการ</span></h1>
-            <p><span className="desktop-copy">ดูว่าแต่ละโครงการให้ถือสิทธิในอะไร รายได้มาจากไหน และตอนนี้ทำอะไรได้บ้าง</span><span className="mobile-copy">ดูรายได้จริง แล้วลองเลือกสัดส่วนของคุณ</span></p></div>
+            <p><span className="desktop-copy">ดูว่าแต่ละโครงการให้ถือสิทธิในอะไร รายได้มาจากไหน และตอนนี้ทำอะไรได้บ้าง</span><span className="mobile-copy">ดูราคา สิทธิ และรายได้จากการใช้งานจริง</span></p></div>
           <div className="store-intro-actions">
             <IntroductionVideo />
             <DocumentLink topic={filter === "all" ? "bill" : filter} label={filter === "all" ? "บิลและสัญญา" : undefined} />
           </div>
         </header>
-        <div className="store-toolbar">
+        <button className="mkt-tools" type="button" aria-expanded={showTools} aria-controls="catalog-tools"
+          onClick={() => setShowTools(!showTools)}><SlidersHorizontal size={17} aria-hidden="true" />
+          ตัวเลือก{(filter !== "all" || query || compare) ? " · ใช้งานอยู่" : ""}</button>
+        <div className="store-toolbar" id="catalog-tools">
           <div className="store-categories" role="group" aria-label="ประเภทโครงการ" style={{ "--selected": filters.findIndex(option => option.id === filter) } as CSSProperties}>
             {filters.map(({ id, label, icon: Icon }) => (
               <button key={id} type="button" aria-pressed={filter === id} onClick={() => setFilter(id)}><Icon size={16} aria-hidden="true" />{label}</button>
@@ -202,7 +255,10 @@ export function Catalog() {
           <div className="store-empty"><Search size={24} aria-hidden="true" /><h2>ไม่พบโครงการที่ค้นหา</h2>
             <p>ลองค้นด้วยชื่อโครงการหรือประเภททรัพย์</p>
             <button type="button" onClick={() => {setQuery("");setFilter("all");}}>แสดงทุกโครงการ</button></div>
-        ) : compare ? <Comparison ids={visible} /> : <div className="store-shelf">{visible.map(id => <ProductCard id={id} key={id} />)}</div>}
+        ) : compare ? <Comparison ids={visible} /> : <div className="store-shelf">
+          {visible.map(id => <ProductCard id={id} key={id} />)}
+          {visible.map(id => <MobileProject id={id} key={"mobile-" + id} />)}
+        </div>}
       </section>
       <section className="store-journey" aria-labelledby="journey-title">
         <header className="store-journey-header"><div><h2 id="journey-title">ส่งคำขออย่างไร</h2><p>ทุกขั้นตอนบนเว็บนี้ยังไม่มีการจองหรือชำระเงิน</p></div>

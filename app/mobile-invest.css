@@ -99,72 +99,74 @@
   .invest-shell .request-field input { font-size: max(16px, 1rem); }
 }
 
+.mkt-feature, .mkt-archive, .mkt-tools { display: none; }
+
 @media screen and (max-width: 600px) {
+  .invest-shell[data-page="catalog"] { --canvas: #fafafa; --frame: calc(100% - 32px); }
+  .invest-shell[data-page="catalog"] .shell { padding-top: 16px; }
   .deal-store .mobile-copy { display: inline; }
-  .deal-store .desktop-copy { display: none; }
+  .deal-store .desktop-copy, .deal-store .store-shelf > .store-card { display: none; }
   .deal-store > section:first-child {
     display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center;
-    grid-template-areas: "heading controls" "subtitle subtitle" "categories categories"
+    grid-template-areas: "heading tools" "subtitle subtitle" "filters filters"
       "search search" "results results" "resources resources";
   }
-  .deal-store .store-opening, .deal-store .store-heading, .deal-store .store-toolbar { display: contents; }
-  .deal-store .store-heading h1 { grid-area: heading; font-size: 2.1rem; letter-spacing: -.03em; }
-  .deal-store .store-heading p { grid-area: subtitle; margin: 4px 0 16px; font-size: .94rem; color: #62626b; }
-  .deal-store .store-controls { grid-area: controls; gap: 6px; }
-  .deal-store .store-controls button { height: 44px; border: 1px solid #e4e4e8; border-radius: 50px; box-shadow: none; }
-  .deal-store .store-compare-toggle { width: auto; padding-inline: 11px; }
-  .deal-store .store-compare-toggle span { position: static; width: auto; height: auto; clip-path: none; }
-  .deal-store .store-categories { grid-area: categories; width: 100%; background: #eaeaec; border-radius: 15px; margin-bottom: 14px; }
-  .deal-store .store-categories button svg { display: block; }
+  .deal-store .store-opening, .deal-store .store-heading { display: contents; }
+  .deal-store .store-heading h1 { grid-area: heading; font-size: 1.9rem; letter-spacing: -.035em; }
+  .deal-store .store-heading p { grid-area: subtitle; margin: 1px 0 14px; color: #52525a; font-size: .9375rem; line-height: 1.55; }
+  .deal-store .mkt-tools { grid-area: tools; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding-inline: 8px; font-size: .875rem; color: #3e3e45; }
+  .deal-store .mkt-tools[aria-expanded="true"] { color: #9c111a; }
+  .deal-store .store-toolbar { grid-area: filters; display: none; }
+  .deal-store[data-tools="true"] .store-toolbar { display: flex; flex-wrap: wrap; }
+  .deal-store .store-categories { flex: 1 1 185px; }
   .deal-store .store-searchbox { grid-area: search; }
+  .deal-store[data-tools="false"] .store-searchbox { display: none; }
   .deal-store :is(.store-shelf, .store-comparison, .store-empty) { grid-area: results; }
-  .deal-store .store-shelf { gap: 13px; }
-  .deal-store .store-intro-actions {
-    grid-area: resources; display: flex; gap: 6px 18px; justify-content: flex-start;
-    padding: 6px 2px 0; margin: 5px 0 0;
-  }
-  .deal-store .store-intro-actions :is(a, button) { min-height: 44px; }
-  .deal-store .store-card {
-    position: relative; grid-template-columns: minmax(0, 1fr) 36%; grid-template-rows: auto auto;
-    border: 1px solid #dfdfe3; border-radius: 24px; box-shadow: 0 3px 10px #15151a05;
-  }
-  .deal-store .store-boxing {
-    background: radial-gradient(ellipse at 90% 10%, #f5f2ef, transparent 59%), white;
-  }
-  .deal-store .store-product-intro {
-    align-self: center; padding: 19px 0 14px clamp(15px, 4.8vw, 22px); min-width: 0;
-    display: flex; flex-direction: column; align-items: flex-start;
-  }
-  .deal-store .store-card-status {
-    order: -2; margin: 0 0 13px; padding: 4px 8px; min-height: 24px;
-    color: #605e64; background: #efeff1; border-radius: 20px; font-weight: 550; font-size: .875rem;
-  }
-  .deal-store .store-card-status svg { display: none; }
-  .deal-store .store-boxing .store-card-status { color: #a0141a; background: #fbebea; }
-  .deal-store .store-boxing .store-card-status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #b9141d; }
-  .deal-store .store-type { color: #57575e; font-size: .8rem; flex-wrap: wrap; gap: 4px; }
-  .deal-store .store-type svg { color: #65656d; }
-  .deal-store .store-boxing h2 { font-size: clamp(2.05rem, 8.8vw, 3rem); letter-spacing: -.065em; }
-  .deal-store .store-house h2 { font-size: clamp(1.42rem, 6.2vw, 2rem); line-height: 1.11; }
-  .deal-store .store-product-summary { font-size: 1rem; line-height: 1.5; margin: 3px 0 0; }
-  .deal-store .store-picture { margin: 0; min-height: 170px; border: 0; border-radius: 0; background: transparent; }
-  .deal-store .store-boxing .store-picture { min-height: 205px; }
-  .deal-store .store-boxing .store-picture[data-photo="0"] img {
-    padding: 13px 9px 22px 2px; filter: drop-shadow(2px 6px 5px #3e323e28); object-position: center;
-  }
-  .deal-store .store-boxing .store-picture[data-photo="1"] img { object-fit: cover; }
-  .deal-store .store-house .store-picture { margin: 12px 12px 8px 4px; min-height: 140px; border-radius: 15px; }
-  .deal-store .store-gallery-button { right: 4px; bottom: 4px; min-height: 26px; min-width: 44px; }
-  .deal-store .store-gallery-button::before { inset: -13px 0 -5px; }
-  .deal-store .store-boxing .store-gallery-button { right: 10px; background: #fffffff2; border: 1px solid #e1e1e5; color: #4d4d55; }
-  .deal-store .store-product-action { background: white; margin: 0; gap: 6px; padding: 12px clamp(12px, 4.8vw, 22px); }
-  .deal-store .store-price>span { font-size: .82rem; }
-  .deal-store .store-price strong { font-size: clamp(1.42rem, 6.2vw, 1.9rem); line-height: 1.2; font-variant-numeric: tabular-nums; }
-  .deal-store .store-primary { gap: 5px; min-height: 46px; padding: 6px 12px; border-radius: 13px; }
-  .deal-store .store-boxing .store-primary { background: #b70912; color: white; }
-  .deal-store .store-house .store-primary { color: #34343a; background: #eeeef1; }
-  .deal-store .mobile-cta-arrow { display: inline-block; flex-shrink: 0; }
-  .deal-store .store-journey { margin-top: 17px; }
+  .deal-store .store-shelf { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .deal-store .store-intro-actions { grid-area: resources; display: flex; gap: 2px 14px; justify-content: flex-start; margin: 9px 0 0; }
+  .deal-store .store-intro-actions :is(a,button) { min-height: 44px; }
+  .mkt-feature { display: block; min-width: 0; background: #fff; color: #202024; border: 1px solid #dedee2; border-radius: 22px; overflow: clip; }
+  .mkt-hero { position: relative; isolation: isolate; overflow: hidden; display: grid; align-items: center; min-height: clamp(145px, 40vw, 207px); background: #171820; color: white; }
+  .mkt-hero picture { position: absolute; z-index: -2; inset: 0 0 0 32%; overflow: hidden; }
+  .mkt-hero img { width: 100%; height: 100%; object-fit: cover; object-position: 54% 48%; }
+  .mkt-hero::before { content: ""; position: absolute; z-index: -1; inset: 0; background: linear-gradient(90deg,#171820 13%,#171820fa 29%,#171820c5 45%,#17182038 65%,transparent 89%); }
+  .mkt-hero-words { padding: 17px 20px 15px; }
+  .mkt-status { display: flex; align-items: center; gap: 7px; width: fit-content; color: white; font-size: .8125rem; font-weight: 550; }
+  .mkt-status::before { content: ""; width: 7px; height: 7px; background: #ff6269; border-radius: 50%; }
+  .mkt-hero h2 { font-size: clamp(2.15rem, 9.6vw, 3.15rem); font-weight: 600; letter-spacing: -.045em; line-height: .95; margin: 10px 0 6px; color: white; }
+  .mkt-hero p { margin: 0; font-size: .875rem; line-height: 1.5; color: #f1f1f3; }
+  .mkt-decision { padding: 17px clamp(15px, 4.6vw, 24px) 14px; }
+  .mkt-price-label { display: block; font-size: .9375rem; font-weight: 500; }
+  .mkt-amount { margin: 3px 0 0; font-size: clamp(2.3rem, 10vw, 3.25rem); line-height: 1.05; font-weight: 600; letter-spacing: -.045em; }
+  .mkt-amount small { font-size: 1.05rem; font-weight: 500; letter-spacing: 0; }
+  .mkt-calc { margin: 4px 0 0; font-size: .85rem; line-height: 1.5; color: #575761; font-variant-numeric: tabular-nums; }
+  .mkt-rights { margin: 10px 0 12px; line-height: 1.5; font-size: 1rem; color: #37373e; }
+  .mkt-statement { border-block: 1px solid #e4e4e7; }
+  .mkt-statement summary { min-height: 55px; display: flex; align-items: center; gap: 10px; padding: 7px 1px; cursor: pointer; list-style: none; color: #33333a; }
+  .mkt-statement summary::-webkit-details-marker { display: none; }
+  .mkt-statement summary > span { flex: 1; }
+  .mkt-statement summary :is(strong,small) { display: block; }
+  .mkt-statement summary strong { font-size: .9375rem; font-weight: 600; }
+  .mkt-statement summary small { font-size: .8125rem; color: #575761; }
+  .mkt-statement[open] summary > svg:last-child { transform: rotate(180deg); }
+  .mkt-bill { padding: 0 0 8px; }
+  .mkt-bill dl { margin: 0; }
+  .mkt-bill dl div { display: flex; align-items: baseline; justify-content: space-between; gap: 6px; padding-block: 3px; font-size: .875rem; }
+  .mkt-bill dd { margin: 0; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .mkt-bill dl div:last-child { border-top: 1px dashed #cccbd0; font-weight: 600; margin-top: 3px; padding-top: 7px; }
+  .mkt-bill p, .mkt-note { color: #5e5e67; font-size: .8125rem; line-height: 1.55; }
+  .mkt-bill p { margin: 8px 0 0; }
+  .mkt-bill a { display: inline-flex; align-items: center; min-height: 44px; font-size: .875rem; text-decoration: underline; text-underline-offset: 3px; }
+  .mkt-main-link { display: flex; align-items: center; justify-content: center; text-align: center; min-height: 47px; padding: 8px 12px; margin-top: 13px; border-radius: 13px; color: white; background: #b60913; font-size: 1rem; font-weight: 600; }
+  .mkt-note { text-align: center; margin: 6px 0 0; }
+  .mkt-archive { display: block; }
+  .mkt-archive h2 { margin: 0 0 8px; font-size: 1.09rem; font-weight: 600; }
+  .mkt-house-row { display: flex; gap: 13px; align-items: center; padding: 10px 0; border-block: 1px solid #dfdfe4; color: #25252b; }
+  .mkt-house-row img { width: 70px; height: 66px; border-radius: 10px; object-fit: cover; }
+  .mkt-house-row > span { flex: 1; display: grid; }
+  .mkt-house-row strong { font-size: 1rem; font-weight: 600; }
+  .mkt-house-row small, .mkt-house-row span span { color: #595962; font-size: .8125rem; }
+  .deal-store .store-journey { margin-top: 16px; }
 }
 
 .about-topics button[aria-controls="about-team"], .about-short-label { display: none; }
