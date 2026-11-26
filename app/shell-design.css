@@ -125,3 +125,24 @@
   .invest-header,.invest-footer,.invest-skip,.invest-tabbar { display:none; }
   .invest-shell,.invest-shell > .workspace-main { min-height:0;background:white; }
 }
+
+.invest-footer-identity { position: relative; display: flex; align-items: center; flex-wrap: wrap; gap: 0 9px; }
+.site-release summary {
+  display: grid; place-items: center; min-height: 44px; min-width: 44px;
+  cursor: pointer; list-style: none; white-space: nowrap;
+}
+.site-release summary::-webkit-details-marker { display: none; }
+.site-release summary span {
+  padding: 3px 7px; border: 1px solid #d7d7dd; border-radius: 6px; color: #56565e;
+  font: 500 .8125rem/1.3 "IBM Plex Sans", sans-serif; font-variant-numeric: tabular-nums;
+}
+.site-release[open] summary span { border-color: #888890; color: #252529; }
+.release-note {
+  position: absolute; z-index: 3; bottom: 100%; left: 0; width: min(19rem, calc(100vw - 32px));
+  max-height: 55dvh; overflow: auto; padding: 16px 18px; border: 1px solid #e3e3e7;
+  border-radius: 16px; background: white; color: #242428; box-shadow: 0 8px 28px #1919251a;
+}
+.release-note h2 { margin: 0; font-size: 1.1rem; line-height: 1.4; }
+.release-note time { color: #5f5f65; font-size: .84rem; }
+.release-note p { margin: 9px 0 0; font-size: .94rem; line-height: 1.55; }
+.release-note strong { display: block; }
