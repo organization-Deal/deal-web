@@ -2,7 +2,7 @@
 
 import { useRef, useState, type CSSProperties } from "react";
 import {
-  BookOpen, Calculator, CalendarClock, ClipboardList, Columns2, FilePenLine, Gamepad2, House,
+  ArrowUpRight, BookOpen, Calculator, CalendarClock, ClipboardList, Columns2, FilePenLine, Gamepad2, House,
   Images, LayoutGrid, List, Play, Search, UsersRound, X,
 } from "lucide-react";
 import { money } from "../lib/deals";
@@ -10,11 +10,12 @@ import { offers, type OfferId } from "../lib/offers";
 import { DocumentLink } from "./document-link";
 
 type Filter = "all" | OfferId;
-const productIds: readonly OfferId[] = ["house", "boxing"];
+const productIds: readonly OfferId[] = ["boxing", "house"];
 const catalogue = {
   house: {
     type: "บ้านพัก", category: "บ้านพักให้เช่า", location: "ริมแม่น้ำปิง · เชียงใหม่",
     summary: "บ้านบนที่ดินเช่า รายได้มาจากค่าที่พักหลังหักค่าใช้จ่าย ทะเบียน 19 พ.ย. 2569 ระบุว่ายังอยู่ขั้นออกแบบ",
+    shortSummary: "บ้านบนที่ดินเช่า แบ่งรายได้จากค่าที่พักหลังหักค่าใช้จ่าย",
     status: "รอบเดิมปิด 14 ต.ค. 2569", detailLabel: "ดูสถานะบ้าน",
     rights: "สิทธิในตัวบ้านบนที่ดินเช่า ตามส่วนที่ระบุในสัญญา",
     income: "ค่าที่พักของชั้นหรือหน่วยที่ระบุในสัญญา หลังหักค่าใช้จ่าย",
@@ -27,7 +28,8 @@ const catalogue = {
   boxing: {
     type: "ตู้ชกมวย", category: "ตู้ชกมวยอาร์เคด", location: "เครื่องเล่นอาร์เคด",
     summary: "ถือสิทธิในตู้ตามสัญญา ดูยอดเล่น ค่าใช้จ่าย และส่วนแบ่งจากรายงานจริงของตู้ร้าน Lism เชียงใหม่",
-    status: "เปิดรับคำขอตรวจสิทธิ", detailLabel: "ดูรายงานตู้ชกมวย",
+    shortSummary: "รับส่วนแบ่งจากค่าเล่นของตู้ หลังหักค่าใช้จ่าย",
+    status: "เปิดรับคำขอตรวจสิทธิ", detailLabel: "ดูโครงการ",
     rights: "สิทธิในตู้ชกมวยที่ระบุในสัญญา",
     income: "ค่าเล่นของตู้ที่ระบุในสัญญา หลังหักค่าใช้จ่าย",
     icon: Gamepad2,
@@ -81,7 +83,7 @@ function IntroductionVideo() {
 
 function OfferLink({ id }: { id: OfferId }) {
   const label = catalogue[id].detailLabel;
-  return <a className="store-primary" href={"#/offer/" + id} aria-label={label + " " + offers[id].name}>{label}</a>;
+  return <a className="store-primary" href={"#/offer/" + id} aria-label={label + " " + offers[id].name}>{label}<ArrowUpRight className="mobile-cta-arrow" size={16} aria-hidden="true" /></a>;
 }
 
 function ProductCard({ id }: { id: OfferId }) {
@@ -98,12 +100,12 @@ function ProductCard({ id }: { id: OfferId }) {
       <div className="store-product-intro">
         <span className="store-type"><Icon size={17} aria-hidden="true" />{product.category}{id === "house" && <span className="store-location">· เชียงใหม่</span>}</span>
         <h2 id={"store-title-" + id}><a href={"#/offer/" + id}>{offer.name}</a></h2>
-        <p className="store-product-summary">{product.summary}</p>
+        <p className="store-product-summary"><span className="desktop-copy">{product.summary}</span><span className="mobile-copy">{product.shortSummary}</span></p>
         <span className="store-card-status"><StatusIcon size={15} aria-hidden="true" />{product.status}</span>
       </div>
       <div className="store-picture" data-photo={photoIndex}>
         <a className="store-photo-link" href={"#/offer/" + id} aria-label={"ดูรายละเอียด " + offer.name}>
-          <img className="store-product-photo" src={photo.src} alt={photo.alt} fetchPriority={id === "house" ? "high" : "auto"} />
+          <img className="store-product-photo" src={photo.src} alt={photo.alt} fetchPriority={id === "boxing" ? "high" : "auto"} />
         </a>
         <span className="store-photo-caption">{photo.caption}</span>
         <button className="store-gallery-button" type="button" aria-label={"ดูรูปถัดไป " + product.photos[nextPhoto].caption + " " + offer.name}
@@ -166,8 +168,8 @@ export function Catalog() {
     <div className="deal-store">
       <section aria-labelledby="catalog-title">
         <header className="store-opening">
-          <div><h1 id="catalog-title">เลือกโครงการของคุณ</h1>
-            <p>ดูว่าแต่ละโครงการให้ถือสิทธิในอะไร รายได้มาจากไหน และตอนนี้ทำอะไรได้บ้าง</p></div>
+          <div className="store-heading"><h1 id="catalog-title"><span className="desktop-copy">เลือกโครงการของคุณ</span><span className="mobile-copy">โครงการ</span></h1>
+            <p><span className="desktop-copy">ดูว่าแต่ละโครงการให้ถือสิทธิในอะไร รายได้มาจากไหน และตอนนี้ทำอะไรได้บ้าง</span><span className="mobile-copy">ดูรายได้จริง แล้วลองเลือกสัดส่วนของคุณ</span></p></div>
           <div className="store-intro-actions">
             <IntroductionVideo />
             <DocumentLink topic={filter === "all" ? "bill" : filter} label={filter === "all" ? "บิลและสัญญา" : undefined} />
@@ -203,7 +205,7 @@ export function Catalog() {
         ) : compare ? <Comparison ids={visible} /> : <div className="store-shelf">{visible.map(id => <ProductCard id={id} key={id} />)}</div>}
       </section>
       <section className="store-journey" aria-labelledby="journey-title">
-        <header className="store-journey-header"><div><h2 id="journey-title">จากดูโครงการถึงฝากเรื่องให้ทีม</h2><p>ทุกขั้นตอนบนเว็บนี้ยังไม่มีการจองหรือชำระเงิน</p></div>
+        <header className="store-journey-header"><div><h2 id="journey-title">ส่งคำขออย่างไร</h2><p>ทุกขั้นตอนบนเว็บนี้ยังไม่มีการจองหรือชำระเงิน</p></div>
           <a className="store-tracking" href="#/requests"><ClipboardList size={17} aria-hidden="true" />ติดตามคำขอของฉัน</a></header>
         <ol>
           {journey.map(({ icon: Icon, title, detail }) => (
