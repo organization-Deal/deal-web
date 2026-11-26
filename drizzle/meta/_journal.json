@@ -1,0 +1,20 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1795099408965,
+      "tag": "0000_burly_madame_web",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1795451544853,
+      "tag": "0001_investment_requests",
+      "breakpoints": true
+    }
+  ]
+}
