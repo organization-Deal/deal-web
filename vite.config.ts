@@ -7,8 +7,15 @@ import { configureToolEnvironment } from "./scripts/tool-environment.mjs";
 import { sites } from "./scripts/vite/sites-vite-plugin";
 import { connectorPreview } from "./scripts/vite/connector-preview-plugin.mjs";
 
-const SITE_CREATOR_PLACEHOLDER_DATABASE_ID =
-  "00000000-0000-4000-8000-000000000000";
+// Without an explicit ID, Wrangler inherits this Worker's DB binding or provisions one.
+const databaseId = process.env.DEAL_D1_DATABASE_ID?.trim();
+if (databaseId && (
+  !/^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(databaseId) ||
+  databaseId === "00000000-0000-4000-8000-000000000000" ||
+  databaseId === "00000000-0000-0000-0000-000000000000"
+)) {
+  throw new Error("DEAL_D1_DATABASE_ID must be the UUID of your Cloudflare D1 database. Leave it unset for automatic binding.");
+}
 
 // Sites supplies its own manifest. GitHub uploads can use the visible root copy.
 const sitesManifest = resolve(".openai", "hosting.json");
@@ -22,15 +29,14 @@ const { d1, r2 } = JSON.parse(readFileSync(hostingManifestPath, "utf8")) as {
 const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === "seatbelt";
 const managedLinux = readExecutionProfile() === "managed-linux";
 
-const localBindingConfig = {
+const bindingConfig = {
   main: "./worker/index.ts",
   compatibility_flags: ["nodejs_compat"],
   d1_databases: d1
     ? [
         {
           binding: d1,
-          database_name: "site-creator-d1",
-          database_id: SITE_CREATOR_PLACEHOLDER_DATABASE_ID,
+          ...(databaseId ? { database_id: databaseId } : {}),
         },
       ]
     : [],
@@ -67,7 +73,7 @@ export default defineConfig(async ({ command }) => {
         viteEnvironment: { name: "rsc", childEnvironments: ["ssr"] },
         inspectorPort: false,
         config: {
-          ...localBindingConfig,
+          ...bindingConfig,
           ...(command === "serve"
             ? {
                 services: [
