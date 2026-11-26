@@ -13,6 +13,8 @@ function BoxingEvidence() {
   const report = lismStatements[selectedMonth];
   const expenses = report.fees.reduce((sum, fee) => sum + fee, 0);
 
+  const netPercent = report.sales > 0 ? Math.round(report.net / report.sales * 100) : 0;
+
   return (
     <section className="ev-block" aria-labelledby="boxing-evidence-title">
       <header className="ev-heading">
@@ -42,6 +44,10 @@ function BoxingEvidence() {
             </dl>
             <div className="ev-payout"><span>ส่วนแบ่ง 10% ในงวดนี้</span><strong>{baht.format(report.tenth)} <small>บาท</small></strong></div>
           </div>
+          {report.sales > 0 && report.net >= 0 && report.net <= report.sales && <div className="ev-allocation">
+            <div className="ev-allocation-bar" aria-hidden="true"><i style={{ width: netPercent + "%" }} /></div>
+            <p><span>คงเหลือ {netPercent}%</span><span>ค่าใช้จ่าย {100 - netPercent}%</span></p>
+          </div>}
           <details className="ev-fees">
             <summary><ReceiptText size={17} aria-hidden="true" />ดูรายการค่าใช้จ่าย<ChevronDown size={16} aria-hidden="true" /></summary>
             <dl>{lismFeeLabels.map((label, index) => <div key={label}><dt>{label}</dt><dd>{baht.format(report.fees[index])} บาท</dd></div>)}</dl>

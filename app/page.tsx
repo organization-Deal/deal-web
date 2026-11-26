@@ -35,6 +35,7 @@ import {
 } from "../lib/deals";
 
 import { Catalog } from "./catalog";
+import { SiteRelease } from "./site-release";
 import { Offer } from "./offer";
 import { InvestmentCheckout, RequestList } from "./investment-requests";
 import { isOfferId, offers, validOfferShare, type OfferId } from "../lib/offers";
@@ -1381,7 +1382,11 @@ export default function HomePage() {
           )}
         </main>
         <footer className="invest-footer">
-          <div className="invest-footer-company"><small lang="en">บริษัท ดีลอินเวส จำกัด</small>
+          <div className="invest-footer-company">
+            <div className="invest-footer-identity">
+              <small>บริษัท ดีลอินเวส จำกัด</small>
+              <SiteRelease />
+            </div>
             {legacy && <small>พื้นที่รายการทดลองเดิม · ราคาและเงื่อนไขจำลอง</small>}
           </div>
           <nav aria-label="เมนูท้ายหน้า">
