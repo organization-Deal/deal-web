@@ -1,6 +1,7 @@
 import vinext from "vinext";
 import { defineConfig } from "vite";
-import hostingConfig from "./.openai/hosting.json";
+import { existsSync, readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { readExecutionProfile } from "./scripts/execution-profile.mjs";
 import { configureToolEnvironment } from "./scripts/tool-environment.mjs";
 import { sites } from "./scripts/vite/sites-vite-plugin";
@@ -9,7 +10,13 @@ import { connectorPreview } from "./scripts/vite/connector-preview-plugin.mjs";
 const SITE_CREATOR_PLACEHOLDER_DATABASE_ID =
   "00000000-0000-4000-8000-000000000000";
 
-const { d1, r2 } = hostingConfig;
+// Sites supplies its own manifest. GitHub uploads can use the visible root copy.
+const sitesManifest = resolve(".openai", "hosting.json");
+const hostingManifestPath = existsSync(sitesManifest) ? sitesManifest : resolve("hosting.json");
+const { d1, r2 } = JSON.parse(readFileSync(hostingManifestPath, "utf8")) as {
+  d1: string | null;
+  r2: string | null;
+};
 
 // macOS Seatbelt blocks FSEvents, so Codex previews need polling for HMR.
 const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === "seatbelt";
@@ -54,7 +61,7 @@ export default defineConfig(async ({ command }) => {
     },
     plugins: [
       vinext(),
-      sites({ mockAuth: !managedLinux }),
+      sites({ mockAuth: !managedLinux, hostingManifestPath }),
       connectorPreview(),
       cloudflare({
         viteEnvironment: { name: "rsc", childEnvironments: ["ssr"] },

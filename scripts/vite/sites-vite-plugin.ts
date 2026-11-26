@@ -29,7 +29,9 @@ async function exists(path: string): Promise<boolean> {
   }
 }
 
-export function sites({ mockAuth = true } = {}): Plugin {
+type SitesOptions = { mockAuth?: boolean; hostingManifestPath?: string };
+
+export function sites({ mockAuth = true, hostingManifestPath }: SitesOptions = {}): Plugin {
   let root = process.cwd();
   let command: "build" | "serve" = "build";
 
@@ -174,7 +176,7 @@ export function sites({ mockAuth = true } = {}): Plugin {
       if (command !== "build") return;
 
       const outputDirectory = resolve(root, "dist", ".openai");
-      const hostingConfig = resolve(root, ".openai", "hosting.json");
+      const hostingConfig = hostingManifestPath ?? resolve(root, ".openai", "hosting.json");
       const drizzleSource = resolve(root, "drizzle");
 
       await rm(outputDirectory, { recursive: true, force: true });
