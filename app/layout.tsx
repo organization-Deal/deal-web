@@ -4,6 +4,7 @@ import "./shell-design.css";
 import "./catalogue-design.css";
 import "./guide-design.css";
 import "./records-design.css";
+import "./mobile-invest.css";
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
